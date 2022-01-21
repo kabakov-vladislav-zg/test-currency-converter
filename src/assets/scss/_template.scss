@@ -1,0 +1,32 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.row {
+  margin-left: -1rem;
+  margin-right: -1rem;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  &__col {
+    padding: 1rem;
+    flex-shrink: 0;
+  }
+}
+
+.card {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, .125);
+  background: rgba(255, 255, 255, .25);
+}
+.button-ghost {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
