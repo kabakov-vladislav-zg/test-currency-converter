@@ -1,7 +1,10 @@
 <template>
   <div
       class="layout layout__theme layout__background"
-      :class="{'layout__theme_dark' : darkTheme}"
+      :class="{
+        'layout__theme_dark' : darkTheme,
+        'layout_modal' : modal,
+      }"
   >
     <div class="layout__container">
       <slot></slot>
@@ -18,11 +21,20 @@ export default {
     ...mapState('settings', {
       darkTheme: state => state.darkTheme,
     }),
+    modal() {
+      return this.$store.state.modal
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.layout_modal {
+  @media (max-width: 767.9999px) {
+    overflow: hidden;
+    height: 100vh;
+  }
+}
 .layout__theme {
   --text-color: #{$color-dark};
   --layout-background-position: 0 0;

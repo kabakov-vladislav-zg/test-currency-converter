@@ -84,12 +84,9 @@ const getters = {
     return getConversion(state.conversions.data, rootState.settings.from, rootState.settings.to)
   },
   conversionChart(state, getters, rootState) {
-    const chart = []
+    const chart = {}
     for (const item of state.historicalConversions.data) {
-      chart.push({
-        time: item.time,
-        conversion: getConversion(item.data, rootState.settings.from, rootState.settings.to)
-      })
+      chart[item.time] = getConversion(item.data, rootState.settings.from, rootState.settings.to)
     }
     return chart
   }

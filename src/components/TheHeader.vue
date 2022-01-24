@@ -1,14 +1,14 @@
 <template>
   <header class="header">
-    <ButtonTheme class="header__item" />
+    <MenuSettings />
   </header>
 </template>
 
 <script>
-import ButtonTheme from "./ButtonTheme";
+import MenuSettings from "./MenuSettings";
 export default {
 name: "TheHeader",
-  components: {ButtonTheme}
+  components: {MenuSettings}
 }
 </script>
 
@@ -19,8 +19,5 @@ name: "TheHeader",
   justify-content: flex-end;
   align-items: center;
   border-bottom: 1px solid var(--text-color);
-}
-.header__item + .header__item {
-  margin-left: 1rem;
 }
 </style>

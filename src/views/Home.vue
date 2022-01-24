@@ -6,13 +6,19 @@
         <ConverterCurrency />
       </div>
     </div>
-    <div class="row__col home__price-list">
+    <div
+      v-if="listPrices"
+      class="row__col home__price-list"
+    >
       <section class="card home__card">
         <h2 class="h2">Список стоимостей</h2>
         <ListPrices />
       </section>
     </div>
-    <div class="row__col home__conversion-history">
+    <div
+      v-if="chartConversion"
+      class="row__col home__conversion-history"
+    >
       <section class="card home__card">
         <h2 class="h2">История курса конвертации</h2>
         <ChartConversion />
@@ -31,7 +37,14 @@ export default {
     ChartConversion,
     ListPrices,
     ConverterCurrency
-
+  },
+  computed: {
+    listPrices() {
+      return this.$store.state.settings.listPrices
+    },
+    chartConversion() {
+      return this.$store.state.settings.chartConversion.active
+    },
   }
 }
 </script>

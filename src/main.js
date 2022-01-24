@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueChartkick from 'vue-chartkick'
+import 'chartkick/chart.js'
 
 import './assets/scss/main.scss'
 
@@ -11,4 +13,5 @@ createApp(App)
   .use(store)
   .use(router)
   .use(VueAxios, axios)
+  .use(VueChartkick)
   .mount('#app')

@@ -11,10 +11,12 @@
       class="row__col converter-currency__menu"
       v-if="stateSelector"
     >
-      <ConverterCurrencyCurrencies
-        @setStateSelector="toggleSelector"
-        :stateSelector="stateSelector"
-      />
+      <ModalContainer @close="toggleSelector('')">
+        <ConverterCurrencyCurrencies
+          @setStateSelector="toggleSelector"
+          :stateSelector="stateSelector"
+        />
+      </ModalContainer>
     </div>
     <template v-else>
       <div class="row__col converter-currency__input">
@@ -34,9 +36,11 @@
 import {mapGetters, mapState} from 'vuex'
 import ConverterCurrencyMenu from "./ConverterCurrencyMenu";
 import ConverterCurrencyCurrencies from "./ConverterCurrencyCurrencies";
+import ModalContainer from "./ModalContainer";
 export default {
   name: "ConverterCurrency",
   components: {
+    ModalContainer,
     ConverterCurrencyCurrencies,
     ConverterCurrencyMenu
   },
