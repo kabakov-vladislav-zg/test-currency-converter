@@ -4,6 +4,7 @@ const state = () => ({
     active: true,
     view: 'chart'
   },
+  listPrices: true,
 
   from: 'RUB',
   to: 'EUR',
@@ -23,8 +24,8 @@ const state = () => ({
 })
 
 const mutations = {
-  toggleTheme(state) {
-    state.darkTheme = !state.darkTheme
+  toggleTheme(state, value) {
+    state.darkTheme = value
   },
   setCurrentCurrency(state, {position, item}) {
     state[position] = item
@@ -32,6 +33,15 @@ const mutations = {
   setLastCurrencies(state, {position, item}) {
     state.last[position].unshift(item)
     state.last[position].pop()
+  },
+  toggleChartConversion(state, value) {
+    state.chartConversion.active = value
+  },
+  toggleChartConversionView(state, value) {
+    state.chartConversion.view = value
+  },
+  toggleListPrices(state, value) {
+    state.listPrices = value
   }
 }
 

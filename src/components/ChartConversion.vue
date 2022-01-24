@@ -1,6 +1,6 @@
 <template>
   <div class="chart-conversion">
-    <template v-if="conversionChart">
+    <template v-if="historicalConversions.status === 'success'">
       <ChartConversionChart
         v-if="chartConversion.view === 'chart'"
         :from="from"
@@ -14,6 +14,11 @@
         :conversionChart="conversionChart"
       />
     </template>
+    <RequestStatus
+      v-else
+      :status="historicalConversions.status"
+      :height="'18.75rem'"
+    />
   </div>
 </template>
 
@@ -21,9 +26,10 @@
 import {mapGetters, mapState} from 'vuex'
 import ChartConversionTable from "./ChartConversionTable";
 import ChartConversionChart from "./ChartConversionChart";
+import RequestStatus from "./RequestStatus";
 export default {
   name: "ChartConversion",
-  components: {ChartConversionChart, ChartConversionTable},
+  components: {RequestStatus, ChartConversionChart, ChartConversionTable},
   mounted() {
     this.$store.dispatch('currencies/initData', 'historicalConversions')
   },
@@ -37,6 +43,9 @@ export default {
       to: state => state.to,
       chartConversion: state => state.chartConversion,
     }),
+    ...mapState('currencies', {
+      historicalConversions: state => state.historicalConversions
+    })
   }
 }
 </script>

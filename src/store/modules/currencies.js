@@ -1,8 +1,10 @@
 import api from '../../api/currencies'
 
-const mockup = process.env.NODE_ENV !== 'production'
 
-const getConversion = (data, from, to) => {
+const mockup = process.env.NODE_ENV !== 'production'  // флаг для загрузки мокнутых данных в development
+                                                      // в бесплатном тарифе currencylayer ограничение 250 запросов/мес
+
+const getConversion = (data, from, to) => { // обход конверсии только относительно USD в бесплатном тарифе currencylayer
   let conversion
   if(from === to) {
     conversion = 1
@@ -27,7 +29,7 @@ const state = () => ({
   },
   historicalConversions: {
     status: 'unloaded',
-    data: []
+    data: null
   },
 
   mockup
@@ -53,7 +55,10 @@ const actions = {
     })
   },
 
-  async setData({commit}, { name, mockup }) {
+  async setData({state, commit}, { name, mockup }) {
+    if(state[name].status === 'onload') {
+      return
+    }
     commit('setStatus', {name, status: 'onload'})
     try {
       const data = await api.getData(name, mockup)
@@ -75,21 +80,21 @@ const actions = {
 }
 
 const getters = {
-  currencies(state) {
-    return state.currencies.data
-  },
   conversion(state, getters, rootState) {
     if(!state.conversions.data) return
 
     return getConversion(state.conversions.data, rootState.settings.from, rootState.settings.to)
   },
   conversionChart(state, getters, rootState) {
-    const chart = []
-    for (const item of state.historicalConversions.data) {
-      chart.push({
-        time: item.time,
-        conversion: getConversion(item.data, rootState.settings.from, rootState.settings.to)
-      })
+    const chart = {}
+    const data = state.historicalConversions.data
+    for (const day in data) {
+      let date = new Date(day)
+      chart[date.toLocaleDateString('ru-RU', {
+        year: "2-digit",
+        month: "2-digit",
+        day: "2-digit",
+      })] = getConversion(data[day], rootState.settings.from, rootState.settings.to)
     }
     return chart
   }

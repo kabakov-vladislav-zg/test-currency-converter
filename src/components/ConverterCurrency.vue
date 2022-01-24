@@ -1,32 +1,41 @@
 <template>
   <div class="converter-currency row">
-    <div class="row__col converter-currency__menu">
-      <ConverterCurrencyMenu
-        :stateSelector="stateSelector"
-        @setStateSelector="toggleSelector"
-        @swapCurrencies="swapCurrencies"
-      />
-    </div>
-    <div
-      class="row__col converter-currency__menu"
-      v-if="stateSelector"
-    >
-      <ConverterCurrencyCurrencies
-        @setStateSelector="toggleSelector"
-        :stateSelector="stateSelector"
-      />
-    </div>
-    <template v-else>
-      <div class="row__col converter-currency__input">
-        <input type="number" v-model="initialValue">
+    <template v-if="conversions.status === 'success'">
+      <div class="row__col converter-currency__menu">
+        <ConverterCurrencyMenu
+          :stateSelector="stateSelector"
+          @setStateSelector="toggleSelector"
+          @swapCurrencies="swapCurrencies"
+        />
       </div>
-      <div class="row__col converter-currency__input">
-        <input type="number" :value="resultValue" disabled>
+      <div
+        class="row__col converter-currency__menu"
+        v-if="stateSelector"
+      >
+        <ModalContainer @close="toggleSelector('')">
+          <ConverterCurrencyCurrencies
+            @setStateSelector="toggleSelector"
+            :stateSelector="stateSelector"
+          />
+        </ModalContainer>
       </div>
-      <div class="row__col">
-        1{{from}} = {{conversion + to}}
-      </div>
+      <template v-else>
+        <div class="row__col converter-currency__input">
+          <input type="number" v-model="initialValue">
+        </div>
+        <div class="row__col converter-currency__input">
+          <input type="number" :value="resultValue" disabled>
+        </div>
+        <div class="row__col">
+          1{{from}} = {{conversion + to}}
+        </div>
+      </template>
     </template>
+    <RequestStatus
+      v-else
+      :height="'11rem'"
+      :status="conversions.status"
+    />
   </div>
 </template>
 
@@ -34,9 +43,13 @@
 import {mapGetters, mapState} from 'vuex'
 import ConverterCurrencyMenu from "./ConverterCurrencyMenu";
 import ConverterCurrencyCurrencies from "./ConverterCurrencyCurrencies";
+import ModalContainer from "./ModalContainer";
+import RequestStatus from "./RequestStatus";
 export default {
   name: "ConverterCurrency",
   components: {
+    RequestStatus,
+    ModalContainer,
     ConverterCurrencyCurrencies,
     ConverterCurrencyMenu
   },
@@ -72,6 +85,9 @@ export default {
     ...mapState('settings', {
       from: state => state.from,
       to: state => state.to,
+    }),
+    ...mapState('currencies', {
+      conversions: state => state.conversions
     }),
     resultValue() {
       const value = this.conversion * this.initialValue

@@ -3,16 +3,16 @@
     <thead>
     <tr>
       <th scope="col">день</th>
-      <th scope="col">{{ to }} / {{ from }}</th>
+      <th scope="col">{{ from }} / {{ to }}</th>
     </tr>
     </thead>
     <tbody>
     <tr
-      v-for="item in conversionChart"
-      :key="item.time + item.conversion"
+      v-for="(item, name) in conversionChart"
+      :key="name + item.conversion"
     >
-      <td>{{ item.time }}</td>
-      <td>{{ item.conversion }}</td>
+      <td>{{ name }}</td>
+      <td>{{ item }}</td>
     </tr>
     </tbody>
   </table>
@@ -31,7 +31,7 @@ export default {
       required: true
     },
     conversionChart: {
-      type: Array,
+      type: Object,
       required: true
     }
   }
