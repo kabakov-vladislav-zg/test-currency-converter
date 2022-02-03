@@ -1,19 +1,15 @@
-# test-currency-converter
+# Тестовое задание. Конвертер валют.
 
-## Project setup
-```
-npm install
-```
+## Технические характеристики:
+- Api https://currencylayer.com/
+- Обход ограничений бесплатного тарифа:
+  - Таймаут между запросами для обхода Rate Limits
+  - Конверсия относитьно любой валюты, а не только доллара
+  - Реализация получения истории конверсии за период времени
+- Настраиваемый интерфейс
+- Быстрый доступ к последним используемым валютам
+- Поиск с подсветкой в меню выбора валюты
+- Сохранение настроек в cookie
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Примечание:
+Всвязи с ограничением на 250 запросов в месяц на бесплатном тарифе, в режиме development реальные данные загружаются только по нажатию кнопки в настройках
